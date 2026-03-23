@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Landscape – Complete Map | roadmap.chanh.me</title>
+<link rel="icon" href="Chanh.png" type="image/x-icon">
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #080c10;
+    --surface: #0d1117;
+    --border: #1c2333;
+    --text: #e6edf3;
+    --muted: #7d8590;
+    --accent: #58a6ff;
+
+    --c1: #58a6ff;  /* Physical */
+    --c2: #3fb950;  /* Networking */
+    --c3: #d2a8ff;  /* Compute */
+    --c4: #79c0ff;  /* Containers */
+    --c5: #ffa657;  /* Cloud */
+    --c6: #ff7b72;  /* App Platforms */
+    --c7: #f778ba;  /* Developer */
+    --c8: #56d364;  /* Observability */
+    --c9: #ff9900;  /* Security */
+    --c10: #a5d6ff; /* Data */
+    --c11: #bc8cff; /* AI */
+    --c12: #54aeff; /* Enterprise */
+    --c13: #7ee787; /* Automation */
+    --c14: #ffa198; /* Operations */
+    --c15: #e3b341; /* Governance */
+    --c16: #76e3ea; /* EUC */
+    --c17: #cf9fff; /* Net Services */
+    --c18: #89d185; /* Assets */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,12,16,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  header h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+  }
+
+  header .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .search-wrap {
+    margin-left: auto;
+    position: relative;
+  }
+
+  #search {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 14px 8px 36px;
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    width: 220px;
+    outline: none;
+    transition: border-color 0.2s, width 0.3s;
+  }
+  #search:focus { border-color: var(--accent); width: 280px; }
+  #search::placeholder { color: var(--muted); }
+
+  .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  .ctrl-bar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.active { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 700; }
+
+  /* STATS BAR */
+  .stats {
+    display: flex;
+    gap: 24px;
+    padding: 10px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    overflow-x: auto;
+  }
+  .stat { display: flex; gap: 6px; align-items: center; white-space: nowrap; }
+  .stat-val { color: var(--accent); font-weight: 700; }
+  .stat-label { color: var(--muted); }
+
+  /* MAIN */
+  main {
+    padding: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+  }
+
+  /* DOMAIN CARD */
+  .domain {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .domain:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+
+  .domain-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+    border-left: 3px solid var(--color);
+  }
+
+  .domain-icon {
+    font-size: 18px;
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .domain-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .domain-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    background: rgba(255,255,255,0.06);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .chevron {
+    color: var(--muted);
+    font-size: 12px;
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+  .domain.open .chevron { transform: rotate(90deg); }
+
+  /* BODY */
+  .domain-body {
+    display: none;
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--border);
+  }
+  .domain.open .domain-body { display: block; }
+
+  /* CATEGORY */
+  .cat {
+    margin-top: 12px;
+  }
+
+  .cat-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color);
+    margin-bottom: 6px;
+    padding-left: 4px;
+    border-left: 2px solid var(--color);
+    padding-left: 8px;
+  }
+
+  /* SUBCATEGORY */
+  .subcat {
+    margin: 8px 0 4px 12px;
+  }
+  .subcat-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* TAGS */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding-left: 12px;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #c9d1d9;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .tag:hover {
+    background: rgba(88,166,255,0.1);
+    border-color: rgba(88,166,255,0.3);
+    color: var(--accent);
+  }
+  .tag.highlight {
+    background: rgba(210,168,255,0.15);
+    border-color: rgba(210,168,255,0.4);
+    color: #d2a8ff;
+  }
+  .tag.new {
+    border-color: rgba(63,185,80,0.4);
+    color: #3fb950;
+    background: rgba(63,185,80,0.08);
+  }
+  .tag.new::after {
+    content: ' ✦';
+    font-size: 9px;
+  }
+
+  /* Search highlight */
+  .tag.matched {
+    background: rgba(255,166,87,0.2) !important;
+    border-color: rgba(255,166,87,0.6) !important;
+    color: #ffa657 !important;
+    font-weight: 700;
+  }
+
+  .domain.hidden { display: none; }
+  .cat.hidden { display: none; }
+
+  /* LEGEND */
+  .legend {
+    padding: 12px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .legend-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  /* Grid layout for wide screens */
+  @media (min-width: 1400px) {
+    main { grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><a href="https://roadmap.chanh.me" style="text-decoration: none;color: #58a6ff;">⬡ roadmap.chanh.me</a></h1>
+    <h1><a href="https://chanh.me" style="text-decoration: none;color: #037ccf;">Chanh.me</a></h1>
+
+  <span class="meta">v2.0 (update: 3 July 2026) · 18 domains · 500+ technologies</span>
+  <div class="ctrl-bar">
+    <button class="btn" onclick="expandAll()">Expand All</button>
+    <button class="btn" onclick="collapseAll()">Collapse All</button>
+    <button class="btn" id="btnNew" onclick="toggleNew()">✦ Show New</button>
+  </div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="search" placeholder="Search technologies..." oninput="doSearch(this.value)">
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><span class="stat-val">18</span><span class="stat-label">Domains</span></div>
+  <div class="stat"><span class="stat-val">500+</span><span class="stat-label">Technologies</span></div>
+  <div class="stat"><span class="stat-val" id="countNew">80+</span><span class="stat-label">Added/Updated</span></div>
+  <div class="stat"><span class="stat-val">2025</span><span class="stat-label">Edition</span></div>
+</div>
+
+<main id="main"></main>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#3fb950"></div> Newly added ✦</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d2a8ff"></div> Highlighted / important</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ffa657"></div> Search match</div>
+    <div class="legend-item"><div class="legend-dot" style="#"></div> © 2026 Chanh</div>
+
+</div>
+
+<script>
+const DATA = [
+  {
+    id: 'physical',
+    icon: '🏗️',
+    title: 'Physical Infrastructure',
+    color: 'var(--c1)',
+    categories: [
+      {
+        name: 'Datacenter Infrastructure',
+        subs: [
+          { name: 'Rack Systems', items: ['Server Rack','Open Rack','Cable Management','Rack PDU','Cable Tray','Trunking'] },
+          { name: 'Power Systems', items: ['Utility Power','UPS','Battery Systems','PDU','ATS','Diesel Generator','Power Monitoring','DCIM'] },
+          { name: 'Cooling Systems', items: ['CRAC','CRAH','In-row Cooling','Liquid Cooling','Immersion Cooling','Hot/Cold Aisle Containment','Free Cooling'] },
+          { name: 'Fire Protection', items: ['VESDA','FM-200','Novec 1230','Inert Gas','Fire Alarm Systems'] },
+          { name: 'Environmental Monitoring', items: ['Temperature Monitoring','Humidity Monitoring','Water Leak Detection','Airflow Monitoring','Power Monitoring','DCIM Platform'] },
+          { name: 'Physical Security', items: ['Access Control','Biometric Auth','Smart Card / RFID','Mantrap','Security Guards','CCTV Integration'] },
+          { name: 'Structured Cabling', items: ['Cat6 / Cat6A','Fiber (SM/MM)','Patch Panels','ODF','TIA-942 Standard'] },
+          { name: 'Standards', items: ['TIA-942','ANSI/BICSI','Uptime Institute Tier'] },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'hardware',
+    icon: '🖥️',
+    title: 'Hardware Infrastructure',
+    color: 'var(--c1)',
+    categories: [
+      {
+        name: 'Servers',
+        subs: [
+          { name: 'Components', items: ['CPU','RAM','RAID Controller','HDD / SSD / NVMe','Power Supply','GPU','HBA (FC/iSCSI)'] },
+          { name: 'Management', items: ['iDRAC','iLO','BMC','IPMI','Redfish API'], isNew: true },
+          { name: 'Form Factor', items: ['Tower','1U/2U Rack','Blade','High-density'] },
+        ]
+      },
+      {
+        name: 'Storage Systems',
+        subs: [
+          { name: 'Storage Types', items: ['DAS','NAS','SAN','Object Storage','Hyper-converged'] },
+          { name: 'Block Storage', items: ['Fibre Channel SAN','iSCSI SAN','NVMe-oF'] },
+          { name: 'File Storage', items: ['NFS','SMB/CIFS','GPFS','Lustre'] },
+          { name: 'Object Storage', items: ['MinIO','S3-compatible','Ceph','Cloudian','ONTAP S3'] },
+          { name: 'Storage Protocols', items: ['Fibre Channel','iSCSI','NFS','SMB/CIFS','NVMe-oF','S3'] },
+          { name: 'SAN Components', items: ['SAN Switch','HBA','WWPN Zoning'] },
+        ]
+      },
+      {
+        name: 'Network Hardware',
+        subs: [
+          { name: 'Core Devices', items: ['Router','Firewall','Layer 3 Switch','Layer 2 Switch','Gateway'] },
+          { name: 'Switch Features', items: ['STP/RSTP/MSTP','LACP/Port-Channel/MLAG','VxLAN','EVPN'] },
+          { name: 'Wireless', items: ['Wireless Controller','WiFi 5','WiFi 6','WiFi 6E','WiFi 7'] },
+          { name: 'Load Balancers HW', items: ['F5 BIG-IP','Citrix ADC','A10 Networks'], isNew: true },
+        ]
+      },
+      {
+        name: 'GPU Infrastructure',
+        subs: [
+          { name: 'NVIDIA', items: ['H100','A100','RTX Series','DGX Systems'] },
+          { name: 'AMD', items: ['MI300X','Radeon Pro'] },
+          { name: 'Other', items: ['Intel Gaudi','TPU (Google)'] },
+        ]
+      },
+      {
+        name: 'Edge Devices',
+        subs: [
+          { name: 'Devices', items: ['Edge Server','Industrial PC','Raspberry Pi','NVIDIA Jetson'] },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'surveillance',
+    icon: '📷',
+    title: 'Surveillance Systems',
+    color: 'var(--c1)',
+    categories: [
+      {
+        name: 'Cameras',
+        subs: [
+          { name: 'Types', items: ['IP Camera','PTZ Camera','Thermal Camera','Fisheye Camera','360° Camera'] },
+        ]
+      },
+      {
+        name: 'Recording & VMS',
+        subs: [
+          { name: 'Recording', items: ['NVR','DVR','Edge Storage'] },
+          { name: 'VMS Platforms', items: ['Milestone','HikCentral','Genetec','Avigilon'] },
+        ]
+      },
+      {
+        name: 'Video Analytics',
+        subs: [
+          { name: 'AI Analytics', items: ['Motion Detection','Face Recognition','License Plate Recognition','Intrusion Detection','Crowd Analytics','Behavior Analysis'], isNew: true },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'networking',
+    icon: '🌐',
+    title: 'Networking',
+    color: 'var(--c2)',
+    categories: [
+      {
+        name: 'Fundamentals',
+        subs: [
+          { name: 'Core Protocols', items: ['TCP/IP','UDP','VLAN','NAT','ARP','ICMP','IGMP'] },
+          { name: 'Subnetting', items: ['IPv4','IPv6','CIDR','VLSM'] },
+        ]
+      },
+      {
+        name: 'Routing',
+        subs: [
+          { name: 'Protocols', items: ['BGP','OSPF','IS-IS','EIGRP','RIP','MPLS'] },
+          { name: 'Policy', items: ['Route Filtering','Route Redistribution','Traffic Engineering'] },
+        ]
+      },
+      {
+        name: 'Network Architecture',
+        subs: [
+          { name: 'Overlay/Underlay', items: ['MPLS','SD-WAN','SDN','VXLAN','EVPN','GENEVE'] },
+          { name: 'Topology', items: ['Spine-Leaf','Three-Tier','Fat-Tree'] },
+        ]
+      },
+      {
+        name: 'VPN',
+        subs: [
+          { name: 'Protocols', items: ['IPsec','SSL VPN','WireGuard','Tailscale','OpenVPN','GRE'] },
+        ]
+      },
+      {
+        name: 'Network Security',
+        subs: [
+          { name: 'Devices', items: ['Firewall','IDS/IPS','NAC','WAF','DDoS Protection','NGFW'] },
+        ]
+      },
+      {
+        name: 'Traffic Management',
+        subs: [
+          { name: 'QoS', items: ['QoS','Rate Limiting','Traffic Shaping','DSCP','CoS'] },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'netservices',
+    icon: '🔌',
+    title: 'Network Services',
+    color: 'var(--c17)',
+    isNew: true,
+    categories: [
+      {
+        name: 'Core Services',
+        subs: [
+          { name: 'DNS', items: ['BIND','CoreDNS','PowerDNS','Pi-hole','Unbound','AWS Route 53'], isNew: true },
+          { name: 'DHCP', items: ['ISC DHCP','Kea DHCP','Windows DHCP'], isNew: true },
+          { name: 'NTP / Time', items: ['Chrony','NTP Server','PTP (IEEE 1588)','AWS Time Sync'], isNew: true },
+          { name: 'IPAM', items: ['NetBox','phpIPAM','Infoblox'], isNew: true },
+        ]
+      },
+      {
+        name: 'Load Balancing',
+        subs: [
+          { name: 'Software LB', items: ['HAProxy','NGINX','Traefik','Envoy','AWS ALB/NLB','Azure Load Balancer'], isNew: true },
+          { name: 'Global LB', items: ['AWS Route 53','Cloudflare Load Balancing','F5 GTM'], isNew: true },
+        ]
+      },
+      {
+        name: 'CDN',
+        subs: [
+          { name: 'Providers', items: ['Cloudflare','AWS CloudFront','Akamai','Fastly','Google Cloud CDN','Azure CDN'], isNew: true },
+        ]
+      },
+      {
+        name: 'Proxy',
+        subs: [
+          { name: 'Types', items: ['Forward Proxy','Reverse Proxy','Transparent Proxy','Squid','Nginx Proxy'], isNew: true },
+        ]
+      },
+      {
+        name: 'Network Monitoring',
+        subs: [
+          { name: 'Tools', items: ['NetFlow/IPFIX','SNMP','Wireshark','LibreNMS','Cacti','ntopng'], isNew: true },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'compute',
+    icon: '⚙️',
+    title: 'Compute & Virtualization',
+    color: 'var(--c3)',
+    categories: [
+      {
+        name: 'Compute Models',
+        subs: [
+          { name: 'Types', items: ['Bare Metal','Virtual Machines','Containers','Serverless','HPC'] },
+        ]
+      },
+      {
+        name: 'Hypervisors',
+        subs: [
+          { name: 'Commercial', items: ['VMware vSphere','Hyper-V','Citrix Hypervisor (XenServer)'] },
+          { name: 'Open Source', items: ['KVM','Proxmox VE','oVirt','QEMU'] },
+        ]
+      },
+      {
+        name: 'Cluster Management',
+        subs: [
+          { name: 'HA Clustering', items: ['Pacemaker','Corosync','DRBD','WSFC'], isNew: true },
+        ]
+      },
+      {
+        name: 'GPU Compute',
+        subs: [
+          { name: 'Frameworks', items: ['CUDA','ROCm','OpenCL','RAPIDS'] },
+        ]
+      },
+      {
+        name: 'HPC',
+        subs: [
+          { name: 'Schedulers', items: ['SLURM','PBS/Torque','LSF','OpenPBS'] },
+          { name: 'Interconnects', items: ['InfiniBand','RDMA','Omni-Path'] },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'containers',
+    icon: '📦',
+    title: 'Containers & Cloud Native',
+    color: 'var(--c4)',
+    categories: [
+      {
+        name: 'Container Runtimes',
+        subs: [
+          { name: 'Runtimes', items: ['Docker','containerd','Podman','CRI-O','runc'] },
+        ]
+      },
+      {
+        name: 'Kubernetes',
+        subs: [
+          { name: 'Architecture', items: ['Control Plane','Worker Nodes','etcd','API Server','Scheduler','Controller Manager'] },
+          { name: 'Networking', items: ['CNI','Calico','Cilium','Flannel','WeaveNet'] },
+          { name: 'Storage', items: ['PV/PVC','StorageClass','CSI Driver'] },
+          { name: 'Distributions', items: ['k3s','RKE2','OpenShift','Tanzu','Rancher'], isNew: true },
+        ]
+      },
+      {
+        name: 'Kubernetes Tools',
+        subs: [
+          { name: 'Packaging', items: ['Helm','Kustomize'] },
+          { name: 'GitOps', items: ['ArgoCD','FluxCD'] },
+          { name: 'Management', items: ['Lens','k9s','Velero','Kubecost'], isNew: true },
+          { name: 'Policy', items: ['OPA Gatekeeper','Kyverno'], isNew: true },
+        ]
+      },
+      {
+        name: 'Service Mesh',
+        subs: [
+          { name: 'Platforms', items: ['Istio','Linkerd','Consul Connect','Kuma'] },
+        ]
+      },
+      {
+        name: 'Container Security',
+        subs: [
+          { name: 'Tools', items: ['Falco','Trivy','Aqua Security','Snyk Container','Twistlock'], isNew: true },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'cloud',
+    icon: '☁️',
+    title: 'Cloud Platforms',
+    color: 'var(--c5)',
+    categories: [
+      {
+        name: 'Cloud Providers',
+        subs: [
+          { name: 'Hyperscalers', items: ['AWS','Microsoft Azure','Google Cloud','Oracle Cloud','Alibaba Cloud'] },
+          { name: 'Regional', items: ['OVHcloud','Hetzner','DigitalOcean','Vultr'] },
+        ]
+      },
+      {
+        name: 'Cloud Architecture',
+        subs: [
+          { name: 'Models', items: ['Multi-cloud','Hybrid Cloud','Private Cloud','Public Cloud','Sovereign Cloud'] },
+        ]
+      },
+      {
+        name: 'Cloud Compute',
+        subs: [
+          { name: 'VMs', items: ['EC2','Azure VM','Compute Engine','OCI VM'] },
+          { name: 'Managed K8s', items: ['EKS','AKS','GKE','OKE'] },
+          { name: 'Serverless', items: ['AWS Lambda','Azure Functions','Cloud Functions','Fargate'] },
+        ]
+      },
+      {
+        name: 'Cloud Storage',
+        subs: [
+          { name: 'Types', items: ['S3','Azure Blob','GCS','Object Storage','Block Volume','EFS/Azure Files'] },
+        ]
+      },
+      {
+        name: 'Cloud Networking',
+        subs: [
+          { name: 'Services', items: ['VPC','Load Balancers','PrivateLink','Transit Gateway','VPN Gateway','Direct Connect'] },
+          { name: 'CDN', items: ['CloudFront','Azure CDN','Cloud CDN','Cloudflare'] },
+        ]
+      },
+      {
+        name: 'Edge Compute',
+        subs: [
+          { name: 'Platforms', items: ['Cloudflare Workers','Lambda@Edge','Azure Edge Zones','AWS Outposts'] },
+        ]
+      },
+      {
+        name: 'Cloud FinOps',
+        subs: [
+          { name: 'Tools', items: ['AWS Cost Explorer','Azure Cost Mgmt','GCP Cost Tools','CloudHealth','Apptio Cloudability'], isNew: true },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'appplatforms',
+    icon: '🚀',
+    title: 'Application Platforms',
+    color: 'var(--c6)',
+    categories: [
+      {
+        name: 'Web Platforms',
+        subs: [
+          { name: 'Servers', items: ['NGINX','Apache','IIS','Tomcat','Caddy','Lighttpd'] },
+        ]
+      },
+      {
+        name: 'Application Runtimes',
+        subs: [
+          { name: 'Languages', items: ['Java (JVM)','Node.js','Python','Go','.NET / C#','Rust','Ruby','PHP'] },
+        ]
+      },
+      {
+        name: 'API Management',
+        subs: [
+          { name: 'Gateways', items: ['Kong','Apigee','AWS API Gateway','Azure APIM','Traefik'] },
+        ]
+      },
+      {
+        name: 'Messaging',
+        subs: [
+          { name: 'Brokers', items: ['Apache Kafka','RabbitMQ','ActiveMQ','NATS','IBM MQ','AWS SQS/SNS'] },
+        ]
+      },
+      {
+        name: 'Streaming',
+        subs: [
+          { name: 'Platforms', items: ['Kafka Streams','Apache Pulsar','AWS Kinesis','Azure Event Hubs'] },
+        ]
+      },
+      {
+        name: 'Artifact / Registry',
+        subs: [
+          { name: 'Artifact Mgmt', items: ['Nexus Repository','JFrog Artifactory','AWS CodeArtifact'] },
+          { name: 'Container Registry', items: ['Harbor','Docker Hub','AWS ECR','Azure ACR','GCR'] },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'devplatform',
+    icon: '🛠️',
+    title: 'Developer Platform',
+    color: 'var(--c7)',
+    categories: [
+      {
+        name: 'Source Control',
+        subs: [
+          { name: 'Platforms', items: ['Git','GitHub','GitLab','Bitbucket','Azure DevOps'] },
+        ]
+      },
+      {
+        name: 'CI/CD',
+        subs: [
+          { name: 'Tools', items: ['Jenkins','GitHub Actions','GitLab CI','CircleCI','Tekton','Drone CI','TeamCity'] },
+        ]
+      },
+      {
+        name: 'Infrastructure as Code',
+        subs: [
+          { name: 'Provisioning', items: ['Terraform','OpenTofu','Pulumi','CloudFormation','Bicep','CDK'] },
+          { name: 'IaC Testing', items: ['Terratest','Checkov','tflint','Conftest'], isNew: true },
+        ]
+      },
+      {
+        name: 'Configuration Management',
+        subs: [
+          { name: 'Tools', items: ['Ansible','Puppet','Chef','SaltStack'] },
+        ]
+      },
+      {
+        name: 'GitOps',
+        subs: [
+          { name: 'Platforms', items: ['ArgoCD','FluxCD','Weave GitOps'] },
+        ]
+      },
+      {
+        name: 'Platform Engineering',
+        subs: [
+          { name: 'IDP', items: ['Internal Developer Platform','Golden Paths','Backstage','Port','Cortex'], isNew: true },
+          { name: 'Developer Experience', items: ['Dev Containers','Devfile','Daytona','Coder'] },
+        ]
+      },
+      {
+        name: 'Feature Flags',
+        subs: [
+          { name: 'Tools', items: ['LaunchDarkly','Unleash','Flagsmith','Split.io'] },
+        ]
+      },
+      {
+        name: 'Testing',
+        subs: [
+          { name: 'Types', items: ['Unit Testing','Integration Testing','E2E Testing','Load Testing','Contract Testing'], isNew: true },
+          { name: 'Tools', items: ['JUnit','Pytest','Cypress','Playwright','k6','Gatling','Pact'], isNew: true },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'observability',
+    icon: '📊',
+    title: 'Observability',
+    color: 'var(--c8)',
+    categories: [
+      {
+        name: 'Metrics',
+        subs: [
+          { name: 'Collection', items: ['Prometheus','VictoriaMetrics','InfluxDB','Graphite'] },
+        ]
+      },
+      {
+        name: 'Logs',
+        subs: [
+          { name: 'Storage', items: ['Elasticsearch','Loki','OpenSearch','Splunk','Graylog'] },
+          { name: 'Shippers', items: ['Fluentd','Fluent Bit','Logstash','Vector','Filebeat'], isNew: true },
+        ]
+      },
+      {
+        name: 'Tracing',
+        subs: [
+          { name: 'Platforms', items: ['Jaeger','Zipkin','Tempo','Datadog APM'] },
+          { name: 'Standards', items: ['OpenTelemetry','W3C TraceContext'] },
+        ]
+      },
+      {
+        name: 'Profiling',
+        subs: [
+          { name: 'Tools', items: ['Pyroscope','pprof','async-profiler'] },
+        ]
+      },
+      {
+        name: 'Visualization',
+        subs: [
+          { name: 'Dashboards', items: ['Grafana','Kibana','Chronograf'] },
+        ]
+      },
+      {
+        name: 'Infrastructure Monitoring',
+        subs: [
+          { name: 'Platforms', items: ['Zabbix','PRTG','SolarWinds','Nagios','Checkmk','LibreNMS'] },
+        ]
+      },
+      {
+        name: 'Alerting',
+        subs: [
+          { name: 'Tools', items: ['PagerDuty','Opsgenie','AlertManager','Grafana OnCall'] },
+        ]
+      },
+      {
+        name: 'APM',
+        subs: [
+          { name: 'Platforms', items: ['Datadog','Dynatrace','New Relic','AppDynamics','Elastic APM'] },
+        ]
+      },
+      {
+        name: 'Synthetic Monitoring',
+        subs: [
+          { name: 'Tools', items: ['Checkly','Pingdom','UptimeRobot','StatusCake','Grafana Synthetic'], isNew: true },
+        ]
+      },
+      {
+        name: 'Status Pages',
+        subs: [
+          { name: 'Tools', items: ['Statuspage.io','Cachet','Freshstatus','Betterstack'], isNew: true },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'security',
+    icon: '🔒',
+    title: 'Security',
+    color: 'var(--c9)',
+    categories: [
+      {
+        name: 'Identity Security',
+        subs: [
+          { name: 'Directory', items: ['Active Directory','LDAP','FreeIPA','Azure AD/Entra ID'] },
+          { name: 'IAM', items: ['IAM','RBAC','ABAC','AWS IAM','Azure RBAC'] },
+          { name: 'SSO / Federation', items: ['SAML','OAuth2','OpenID Connect','Keycloak','Okta','Ping Identity'] },
+          { name: 'MFA', items: ['TOTP','FIDO2/WebAuthn','SMS OTP','Hardware Token'] },
+        ]
+      },
+      {
+        name: 'Privileged Access (PAM)',
+        isNew: true,
+        subs: [
+          { name: 'Tools', items: ['CyberArk','BeyondTrust','HashiCorp Vault','Delinea','ManageEngine PAM'], isNew: true },
+        ]
+      },
+      {
+        name: 'Zero Trust',
+        subs: [
+          { name: 'Architecture', items: ['ZTNA','Identity-Aware Proxy','BeyondCorp','Cloudflare Access','Zscaler ZPA'] },
+        ]
+      },
+      {
+        name: 'Network Security',
+        subs: [
+          { name: 'Devices', items: ['NGFW','WAF','DDoS Protection','IDS/IPS','Network Sandbox'] },
+        ]
+      },
+      {
+        name: 'Endpoint Security',
+        subs: [
+          { name: 'Platforms', items: ['EDR','XDR','CrowdStrike Falcon','SentinelOne','Microsoft Defender'] },
+        ]
+      },
+      {
+        name: 'Application Security',
+        subs: [
+          { name: 'Testing', items: ['SAST','DAST','IAST','Pen Testing','Bug Bounty'] },
+          { name: 'Tools', items: ['Checkmarx','Veracode','Burp Suite','OWASP ZAP','SonarQube'] },
+          { name: 'API Security', items: ['API Gateway Security','OWASP API Top 10','Salt Security'], isNew: true },
+        ]
+      },
+      {
+        name: 'PKI / Certificate Mgmt',
+        isNew: true,
+        subs: [
+          { name: 'Tools', items: ["Let's Encrypt",'cert-manager','HashiCorp Vault PKI','EJBCA','DigiCert'], isNew: true },
+        ]
+      },
+      {
+        name: 'Vulnerability Management',
+        isNew: true,
+        subs: [
+          { name: 'Scanners', items: ['Tenable Nessus','Qualys','OpenVAS','Rapid7','Snyk'], isNew: true },
+        ]
+      },
+      {
+        name: 'Cloud Security (CSPM)',
+        isNew: true,
+        subs: [
+          { name: 'Platforms', items: ['Wiz','Prisma Cloud','AWS Security Hub','Lacework','Orca Security'], isNew: true },
+        ]
+      },
+      {
+        name: 'DevSecOps',
+        subs: [
+          { name: 'Tools', items: ['Dependency Scanning','Container Scanning','SBOM','Snyk','Trivy','Grype'] },
+        ]
+      },
+      {
+        name: 'Secrets Management',
+        subs: [
+          { name: 'Platforms', items: ['HashiCorp Vault','AWS Secrets Manager','Azure Key Vault','Doppler','1Password Secrets'] },
+        ]
+      },
+      {
+        name: 'Security Operations',
+        subs: [
+          { name: 'Platforms', items: ['SIEM','SOAR','SOC','Microsoft Sentinel','Splunk ES','IBM QRadar'] },
+          { name: 'Threat Intel', items: ['MITRE ATT&CK','IOC Feeds','Threat Hunting'] },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'data',
+    icon: '🗄️',
+    title: 'Data Platforms',
+    color: 'var(--c10)',
+    categories: [
+      {
+        name: 'Databases',
+        subs: [
+          { name: 'Relational', items: ['PostgreSQL','MySQL','MariaDB','Oracle DB','SQL Server','SQLite'] },
+          { name: 'NoSQL Document', items: ['MongoDB','CouchDB','Couchbase','DynamoDB'] },
+          { name: 'NoSQL Wide Column', items: ['Cassandra','HBase','ScyllaDB'] },
+          { name: 'In-Memory', items: ['Redis','Memcached','Apache Ignite'] },
+          { name: 'Time Series', items: ['InfluxDB','TimescaleDB','VictoriaMetrics','QuestDB'], isNew: true },
+          { name: 'Graph', items: ['Neo4j','Amazon Neptune','ArangoDB','TigerGraph'], isNew: true },
+          { name: 'NewSQL', items: ['CockroachDB','TiDB','YugabyteDB','Google Spanner'], isNew: true },
+        ]
+      },
+      {
+        name: 'Search Engines',
+        subs: [
+          { name: 'Platforms', items: ['Elasticsearch','OpenSearch','Apache Solr','Typesense','Meilisearch'] },
+        ]
+      },
+      {
+        name: 'Data Processing',
+        subs: [
+          { name: 'Batch', items: ['Apache Spark','Apache Hadoop','Hive'] },
+          { name: 'Streaming', items: ['Apache Flink','Kafka Streams','Apache Storm','Apache Beam'] },
+        ]
+      },
+      {
+        name: 'Data Orchestration',
+        subs: [
+          { name: 'Tools', items: ['Apache Airflow','Prefect','Dagster','dbt','Luigi'] },
+        ]
+      },
+      {
+        name: 'Data Warehouses',
+        subs: [
+          { name: 'Platforms', items: ['Snowflake','BigQuery','Amazon Redshift','Azure Synapse','Databricks'] },
+        ]
+      },
+      {
+        name: 'Data Lakes',
+        subs: [
+          { name: 'Formats', items: ['Delta Lake','Apache Iceberg','Apache Hudi','Parquet','ORC'] },
+        ]
+      },
+      {
+        name: 'Data Governance',
+        subs: [
+          { name: 'Capabilities', items: ['Data Catalog','Data Quality','Data Lineage','Data Masking','Master Data Mgmt'] },
+          { name: 'Tools', items: ['Apache Atlas','Collibra','Alation','OpenMetadata'] },
+        ]
+      },
+      {
+        name: 'Analytics / BI',
+        subs: [
+          { name: 'Platforms', items: ['Power BI','Tableau','Qlik Sense','Looker','Apache Superset','Metabase'] },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'ai',
+    icon: '🤖',
+    title: 'AI Infrastructure',
+    color: 'var(--c11)',
+    categories: [
+      {
+        name: 'AI Hardware',
+        subs: [
+          { name: 'Accelerators', items: ['NVIDIA H100/A100','AMD MI300X','Google TPU','Intel Gaudi','AWS Trainium/Inferentia'] },
+          { name: 'Networking', items: ['InfiniBand','NVLink','RoCE'] },
+        ]
+      },
+      {
+        name: 'AI Frameworks',
+        subs: [
+          { name: 'Training', items: ['PyTorch','TensorFlow','JAX','MXNet'] },
+          { name: 'Distributed', items: ['DeepSpeed','Megatron-LM','FSDP','Horovod'] },
+        ]
+      },
+      {
+        name: 'ML Platform',
+        subs: [
+          { name: 'Orchestration', items: ['Kubeflow','MLflow','Metaflow','ZenML'], isNew: true },
+          { name: 'Experiment Tracking', items: ['MLflow','Weights & Biases','Neptune.ai','Comet ML'] },
+          { name: 'Model Registry', items: ['MLflow Registry','Hugging Face Hub','Vertex AI Registry'], isNew: true },
+        ]
+      },
+      {
+        name: 'Vector Databases',
+        subs: [
+          { name: 'Platforms', items: ['Pinecone','Weaviate','Milvus','Qdrant','ChromaDB','pgvector'] },
+        ]
+      },
+      {
+        name: 'LLM Platforms',
+        subs: [
+          { name: 'Providers', items: ['OpenAI','Anthropic','Google DeepMind','Meta (Llama)','Mistral AI','Cohere'] },
+        ]
+      },
+      {
+        name: 'Inference',
+        isNew: true,
+        subs: [
+          { name: 'Frameworks', items: ['vLLM','TensorRT-LLM','Ollama','llama.cpp','TGI (HuggingFace)','Triton Inference Server'], isNew: true },
+          { name: 'Serving', items: ['BentoML','Ray Serve','Seldon Core','KServe'] },
+        ]
+      },
+      {
+        name: 'LLMOps',
+        subs: [
+          { name: 'Capabilities', items: ['Model Serving','Model Monitoring','Prompt Management','Guardrails','Evaluation'] },
+          { name: 'Tools', items: ['LangSmith','PromptLayer','Weights & Biases LLM','Phoenix Arize'] },
+        ]
+      },
+      {
+        name: 'RAG Architecture',
+        subs: [
+          { name: 'Components', items: ['Embeddings','Chunking Strategies','Retrieval Systems','Reranking','Hybrid Search'] },
+          { name: 'Frameworks', items: ['LangChain','LlamaIndex','Haystack'], isNew: true },
+        ]
+      },
+      {
+        name: 'AI Orchestration',
+        isNew: true,
+        subs: [
+          { name: 'Frameworks', items: ['LangChain','LlamaIndex','CrewAI','AutoGen','DSPy'], isNew: true },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'enterprise',
+    icon: '🏢',
+    title: 'Enterprise Systems',
+    color: 'var(--c12)',
+    categories: [
+      {
+        name: 'ERP',
+        subs: [
+          { name: 'Platforms', items: ['SAP S/4HANA','Oracle ERP','Microsoft Dynamics 365','Odoo','NetSuite'] },
+        ]
+      },
+      {
+        name: 'CRM',
+        subs: [
+          { name: 'Platforms', items: ['Salesforce','HubSpot','Microsoft Dynamics CRM','Zoho CRM'] },
+        ]
+      },
+      {
+        name: 'Collaboration',
+        subs: [
+          { name: 'Suites', items: ['Microsoft 365','Google Workspace','Slack','Zoom','Webex','Teams'] },
+          { name: 'Documentation', items: ['Confluence','SharePoint','Notion','Slab'], isNew: true },
+        ]
+      },
+      {
+        name: 'Email',
+        subs: [
+          { name: 'Platforms', items: ['Exchange','Gmail','Zimbra','Postfix','Proofpoint'] },
+        ]
+      },
+      {
+        name: 'Identity Governance',
+        isNew: true,
+        subs: [
+          { name: 'IGA Tools', items: ['SailPoint','Saviynt','One Identity','Omada'], isNew: true },
+        ]
+      },
+      {
+        name: 'BI Platforms',
+        subs: [
+          { name: 'Tools', items: ['Power BI','Tableau','Qlik','Looker','MicroStrategy'] },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'automation',
+    icon: '⚡',
+    title: 'Automation & Low-Code',
+    color: 'var(--c13)',
+    categories: [
+      {
+        name: 'Workflow Automation',
+        subs: [
+          { name: 'iPaaS', items: ['Power Automate','Zapier','Make (Integromat)','n8n','Workato','Tray.io'] },
+        ]
+      },
+      {
+        name: 'RPA',
+        isNew: true,
+        subs: [
+          { name: 'Platforms', items: ['UiPath','Automation Anywhere','Blue Prism','Power Automate Desktop','SAP iRPA'], isNew: true },
+        ]
+      },
+      {
+        name: 'Low-Code / No-Code',
+        subs: [
+          { name: 'Platforms', items: ['Power Apps','Mendix','OutSystems','Retool','Bubble','AppGyver','Appsmith'] },
+        ]
+      },
+      {
+        name: 'Event-Driven Automation',
+        isNew: true,
+        subs: [
+          { name: 'Tools', items: ['Ansible Event-Driven','Apache Camel','AWS EventBridge','Temporal'], isNew: true },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'operations',
+    icon: '🔧',
+    title: 'Operations',
+    color: 'var(--c14)',
+    categories: [
+      {
+        name: 'ITSM',
+        subs: [
+          { name: 'Frameworks', items: ['ITIL v4','COBIT','ISO 20000'] },
+          { name: 'Tools', items: ['ServiceNow','Jira Service Management','Freshservice','Zammad','ManageEngine'] },
+        ]
+      },
+      {
+        name: 'Backup & DR',
+        subs: [
+          { name: 'Enterprise', items: ['Veeam','Commvault','Rubrik','Cohesity','Zerto'] },
+          { name: 'Open Source', items: ['Bacula','BorgBackup','Restic','Velero'], isNew: true },
+        ]
+      },
+      {
+        name: 'Site Reliability Engineering',
+        subs: [
+          { name: 'Concepts', items: ['SLI','SLO','SLA','Error Budget','Toil Reduction','Capacity Planning'] },
+        ]
+      },
+      {
+        name: 'Chaos Engineering',
+        subs: [
+          { name: 'Tools', items: ['Chaos Mesh','Gremlin','LitmusChaos','AWS Fault Injection Simulator'] },
+        ]
+      },
+      {
+        name: 'Change Management',
+        isNew: true,
+        subs: [
+          { name: 'Process', items: ['RFC','CAB','Emergency Change','Release Management','Deployment Windows'], isNew: true },
+        ]
+      },
+      {
+        name: 'Asset Management',
+        isNew: true,
+        subs: [
+          { name: 'Tools', items: ['Snipe-IT','Ralph','ServiceNow CMDB','i-doit','OpenDCIM'], isNew: true },
+        ]
+      },
+      {
+        name: 'Network Documentation',
+        isNew: true,
+        subs: [
+          { name: 'Tools', items: ['NetBox','IT Glue','phpIPAM','draw.io','Lucidchart'], isNew: true },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'governance',
+    icon: '📋',
+    title: 'Governance',
+    color: 'var(--c15)',
+    categories: [
+      {
+        name: 'Compliance',
+        subs: [
+          { name: 'Frameworks', items: ['ISO 27001','SOC 2','PCI DSS','NIST CSF','HIPAA','GDPR','CIS Benchmarks'] },
+        ]
+      },
+      {
+        name: 'IT Governance',
+        subs: [
+          { name: 'Frameworks', items: ['COBIT','ITIL','TOGAF','Zachman Framework'] },
+        ]
+      },
+      {
+        name: 'Policy as Code',
+        subs: [
+          { name: 'Tools', items: ['OPA (Open Policy Agent)','Kyverno','Conftest','Sentinel'] },
+        ]
+      },
+      {
+        name: 'FinOps',
+        subs: [
+          { name: 'Practices', items: ['Cost Allocation','Cloud Budgeting','Cost Optimization','Chargeback / Showback','Reserved Instances','Spot Instances'] },
+          { name: 'Tools', items: ['CloudHealth','Apptio','Kubecost','AWS CE','Infracost'], isNew: true },
+        ]
+      },
+      {
+        name: 'Risk Management',
+        isNew: true,
+        subs: [
+          { name: 'Practices', items: ['Risk Assessment','Threat Modeling','STRIDE','DREAD','Business Impact Analysis'], isNew: true },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'euc',
+    icon: '💻',
+    title: 'End-User Computing',
+    color: 'var(--c16)',
+    categories: [
+      {
+        name: 'Workplace Devices',
+        subs: [
+          { name: 'Hardware', items: ['Laptops','Desktops','Mobile Devices','Thin Clients','Tablets'], isNew: true },
+        ]
+      },
+      {
+        name: 'Device Management',
+        subs: [
+          { name: 'Platforms', items: ['Microsoft Intune','JAMF (macOS/iOS)','VMware Workspace ONE','MobileIron','SOTI'], isNew: true },
+          { name: 'Concepts', items: ['MDM','MAM','UEM','BYOD','COPE'] },
+        ]
+      },
+      {
+        name: 'Virtual Desktop',
+        subs: [
+          { name: 'VDI', items: ['Citrix Virtual Apps','VMware Horizon','Microsoft AVD','Nutanix Frame'] },
+          { name: 'DaaS', items: ['Amazon WorkSpaces','Citrix DaaS','Windows 365'] },
+        ]
+      },
+      {
+        name: 'Browser Security',
+        isNew: true,
+        subs: [
+          { name: 'Tools', items: ['Browser Isolation','Menlo Security','Zscaler Browser','Enterprise Browser'], isNew: true },
+        ]
+      },
+      {
+        name: 'Printing & Peripherals',
+        subs: [
+          { name: 'Mgmt', items: ['PrinterLogic','PaperCut','Universal Print (Microsoft)'] },
+        ]
+      }
+    ]
+  },
+  {
+    id: 'assets',
+    icon: '📁',
+    title: 'IT Asset & Documentation',
+    color: 'var(--c18)',
+    isNew: true,
+    categories: [
+      {
+        name: 'CMDB',
+        subs: [
+          { name: 'Tools', items: ['ServiceNow CMDB','i-doit','Freshservice CMDB','Device42'], isNew: true },
+        ]
+      },
+      {
+        name: 'Network Documentation',
+        subs: [
+          { name: 'Tools', items: ['NetBox','IP Fabric','Auvik','phpIPAM'], isNew: true },
+        ]
+      },
+      {
+        name: 'IT Documentation',
+        subs: [
+          { name: 'Tools', items: ['IT Glue','Confluence','SharePoint Wiki','Notion','Slab'], isNew: true },
+        ]
+      },
+      {
+        name: 'Asset Discovery',
+        subs: [
+          { name: 'Tools', items: ['Lansweeper','Snipe-IT','Ralph','Spiceworks'], isNew: true },
+        ]
+      }
+    ]
+  }
+];
+
+function countItems(domain) {
+  let n = 0;
+  domain.categories.forEach(cat => {
+    cat.subs.forEach(sub => { n += sub.items.length; });
+  });
+  return n;
+}
+
+function renderDomain(d) {
+  const total = countItems(d);
+  const colorVar = d.color;
+  let html = `<div class="domain" id="dom-${d.id}" style="--color:${colorVar}; border-color: var(--border);">
+    <div class="domain-header" onclick="toggle('${d.id}')">
+      <span class="domain-icon">${d.icon}</span>
+      <span class="domain-title">${d.title}${d.isNew ? ' <span style="font-size:10px;color:var(--c2)">✦ NEW</span>' : ''}</span>
+      <span class="domain-badge">${total} items</span>
+      <span class="chevron">▶</span>
+    </div>
+    <div class="domain-body">`;
+
+  d.categories.forEach(cat => {
+    html += `<div class="cat" data-cat="${cat.name}">
+      <div class="cat-title">${cat.name}${cat.isNew ? ' ✦' : ''}</div>`;
+    cat.subs.forEach(sub => {
+      html += `<div class="subcat"><div class="subcat-title">${sub.name}</div>
+        <div class="tags">`;
+      sub.items.forEach(item => {
+        const cls = sub.isNew ? 'tag new' : 'tag';
+        html += `<span class="${cls}">${item}</span>`;
+      });
+      html += `</div></div>`;
+    });
+    html += `</div>`;
+  });
+
+  html += `</div></div>`;
+  return html;
+}
+
+function render() {
+  const main = document.getElementById('main');
+  main.innerHTML = DATA.map(renderDomain).join('');
+}
+
+function toggle(id) {
+  const el = document.getElementById('dom-' + id);
+  el.classList.toggle('open');
+}
+
+function expandAll() {
+  document.querySelectorAll('.domain').forEach(el => el.classList.add('open'));
+}
+
+function collapseAll() {
+  document.querySelectorAll('.domain').forEach(el => el.classList.remove('open'));
+}
+
+let showNewOnly = false;
+function toggleNew() {
+  showNewOnly = !showNewOnly;
+  document.getElementById('btnNew').classList.toggle('active', showNewOnly);
+  document.querySelectorAll('.tag').forEach(tag => {
+    if (showNewOnly) {
+      tag.style.opacity = tag.classList.contains('new') ? '1' : '0.15';
+    } else {
+      tag.style.opacity = '';
+    }
+  });
+}
+
+function doSearch(q) {
+  q = q.toLowerCase().trim();
+  document.querySelectorAll('.tag').forEach(tag => {
+    tag.classList.remove('matched');
+  });
+
+  if (!q) {
+    document.querySelectorAll('.domain').forEach(d => d.classList.remove('hidden'));
+    return;
+  }
+
+  document.querySelectorAll('.domain').forEach(dom => {
+    const tags = dom.querySelectorAll('.tag');
+    let found = false;
+    tags.forEach(tag => {
+      if (tag.textContent.toLowerCase().includes(q)) {
+        tag.classList.add('matched');
+        found = true;
+      }
+    });
+    if (found) {
+      dom.classList.remove('hidden');
+      dom.classList.add('open');
+    } else {
+      dom.classList.add('hidden');
+    }
+  });
+}
+
+render();
+</script>
+</body>
+</html>
